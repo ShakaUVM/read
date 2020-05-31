@@ -41,6 +41,6 @@ Testing the performance on a million ints, it appears to be equivalent to the ol
 
 Installation instructions:
 
-1. Clone the directory and put read.h wherever you would like it to be.
+1. Clone the directory and put read.h wherever you would like it to be. /usr/include/ if you want it accessible to your whole system, for example, or just in a local project directory.
 2. All the other files are just for showing how to use the library and can be deleted after you've taken a look at them. The sample run shows what it looks like to run main when the user types in some bad input.
 3. If you want to build the executable and test the performance of read.h versus cin, then "make tester" and "make oldway", then run tester and run oldway. They'll output to the screen how long it teach each approach to read a million ints from a file. The new way is slower with the optimizer off and ASAN on, but with the optimizer on and ASAN off, I got equivalent times.
