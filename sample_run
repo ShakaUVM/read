@@ -1,0 +1,11 @@
+Please enter how many green and red apples you want to buy: 5 6
+Please enter the price per apple: gfsdg
+Please enter the price per apple: 3.1
+Your total bill is 34.1
+Please enter your name: Maxwell Price
+Hello Maxwell Price, how are you?
+654872
+Time to read 1M ints: 0.164971
+Please enter an int and a float:
+-12 -.12
+t.x = -12 t.f = -0.12
