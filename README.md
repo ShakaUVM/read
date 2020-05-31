@@ -27,4 +27,14 @@ In addition to read and readline, there are two more functions also named read a
 
 ```string s = readline(ins);``` This reads a line of text from the file ins and stores the result in s. Like with the other readline, it plays nicely with read.
 
+It also works just fine with any class that has a default constructor and an operator>> overloaded for it. The overload can even use read for the primitive types, as such:
+
+```struct Tester{ int x; float f; };```
+
+```istream &operator>>(istream &ins, Tester &t) { t.x = read<int>(ins); t.f = read<float>(ins); return ins; }```
+
+And then in main:
+
+```Tester t = read<Tester>("Please enter an int and a float: \n");```
+
 Testing the performance on a million ints, it appears to be equivalent to the old way, though this was not written with performance in mind. It was written to make input easier for new C++ programmers, who frequently get tripped up on input, especially when vetting their input for errors and when switching between >> and getline.
