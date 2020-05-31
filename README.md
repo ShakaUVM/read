@@ -38,3 +38,8 @@ And then in main:
 ```Tester t = read<Tester>("Please enter an int and a float: \n");```
 
 Testing the performance on a million ints, it appears to be equivalent to the old way, though this was not written with performance in mind. It was written to make input easier for new C++ programmers, who frequently get tripped up on input, especially when vetting their input for errors and when switching between >> and getline.
+
+Installation instructions:
+
+1. Clone the directory and put read.h wherever you would like it to be.
+2. All the other files are just for showing how to use the library and can be deleted after you've taken a look at them. The sample run shows what it looks like to run main when the user types in some bad input.
