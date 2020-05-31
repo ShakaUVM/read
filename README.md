@@ -9,7 +9,7 @@ Using cin >> to read in input from the keyboard is problematic for a few differe
 5) Cannot be used at the same time a variable is declared
 6) Breaks if you mix and match cin >> statements with getlines
 
-This short (~70LOC) header-only library provides four functions for reading from the standard input or from files. Here is an example of each of them in action:
+This short (~70LOC) header-only library provides an alternative to cin that fixes all six of those issues. It provides four functions for reading from the standard input or from files. Here are some example of the functions in action:
 
 ```int x = read<int>();``` This reads an int from the keyboard and stores it in x. If the user types something not an int, it discard it and keeps reading until an int is read. Using cin, you'd need two lines to do this: ```int x; cin >> x;``` which is annoying and awkward.
 
