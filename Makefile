@@ -1,8 +1,8 @@
 tester: main.cc read.h shuf.txt
-	g++ -O3 -o tester main.cc
+	g++ -std=c++17 -O3 -o tester main.cc
 
 oldway: main.cc read.h shuf.txt
-	g++ -O3 -DORIG -o oldway main.cc
+	g++ -std=c++17 -O3 -DORIG -o oldway main.cc
 
 shuf.txt:
 	seq 1 1000000 | shuf - > shuf.txt 
