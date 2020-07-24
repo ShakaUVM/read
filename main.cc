@@ -19,7 +19,14 @@ int main() {
 
 	//Example 1 - reading using a function instead of cin >>
 	//Will clear errors and reprompt if the user doesn't type in an int
+	//If you have C++14 or above, you can use a simpler version
+#if __cplusplus >= 201402L
+	//This version requires C++14 and above
 	int green_apples = read("Please enter how many green and red apples you want to buy: "); //Reads an int from the standard in
+#else
+	int green_apples = read<int>("Please enter how many green and red apples you want to buy: "); //Reads an int from the standard in
+#endif
+
 
 	//You can specify the type in angle brackets.
 	//The prompt is optional, in which case it works just like cin >> but can appear on the right hand side
@@ -50,7 +57,7 @@ int main() {
 
 	//Example 4 - time how long it takes to read 1M numbers from a file
 	vector<int> vec; 
-	vec.reserve(1'000'000);
+	vec.reserve(1000000);
 	hrc::time_point start = hrc::now(); //Start timer
 	while (true) {
 #ifdef ORIG
@@ -72,10 +79,13 @@ int main() {
 
 	//Example 5 - The library works with any type for which there is a default constructor and operator>> defined
 	//So anything that you could cin >> before you can read() now
-	Tester t = read("Please enter an int and a float:\n");
+	Tester t = read<Tester>("Please enter an int and a float:\n");
+	//With C++14+ you could do the simpler version:
+	//Tester t = read("Please enter an int and a float:\n");
 	cout << "t.x = " << t.x << " t.f = " << t.f << endl;
 
-
+	//Using the read_opt function requires C++17 and above
+#if __cplusplus >= 201703L
 	//Example 6 - If you don't want to silently discard errors, use read_opt instead, which will allow you to see if the read was successful
 	//It returns an optional, which you can check to see if it actually has a value
 	optional<unsigned int> height_cm = read_opt<unsigned int>("Please enter your height (in cm):\n");
@@ -119,4 +129,7 @@ int main() {
 		}
 	}
 	cout << "There were " << valid_count << " valid ints in the file and " << invalid_count << " invalid tokens in the file.\n";
+#else
+	cout << "Skipping read_opt examples due to being compiled with a version of C++ prior to C++17.\n";
+#endif
 }

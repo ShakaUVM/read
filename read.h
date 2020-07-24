@@ -3,7 +3,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <optional>
 
 //Simplest Version, Designed for Newbies
 //This will read a T from cin, reprompting if they type in something wrong
@@ -75,6 +74,9 @@ std::string readline(std::istream &ins) {
 	return retval;
 }
 
+//To use read_opt requires C++17 and above
+#if __cplusplus >= 201703L
+#include <optional>
 //Returns an optional. So if your specified type is not read, the caller will know this rather than silently discarding the error
 //Recommended for more advanced programmers than read()
 //If an error occurs, it does not affect the input stream at all and clears the failbit
@@ -110,7 +112,11 @@ std::optional<T> read_opt(std::istream &ins) {
 	}
 	return retval;
 }
+//End requiring C++17 and above
+#endif
 
+//This requires C++14 and above
+#if __cplusplus >= 201402L
 //Simplest read possible: int x = read();
 //Credit: /u/9cantthinkofgoodname
 //https://old.reddit.com/r/cpp/comments/gtzsnm/we_need_to_do_better_than_cin_for_new_programmers/fsx6z7x/
@@ -144,3 +150,4 @@ auto read(const std::string prompt = "") {
 auto read(std::istream &ins) {
 	return Reader{ins,""};
 }
+#endif
