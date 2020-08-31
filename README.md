@@ -9,15 +9,15 @@ Using cin >> to read in input from the keyboard is problematic for a few differe
 5) Cannot be used at the same time a variable is declared
 6) Breaks if you mix and match cin >> statements with getlines
 
-This short (~70LOC) header-only library provides an alternative to cin that fixes all six of those issues. It provides four functions for reading from the standard input or from files. Here are some example of the functions in action:
+This short (~150LOC) header-only library provides an alternative to cin that fixes all six of those issues. It provides four functions for reading from the standard input or from files. Here are some example of the functions in action:
 
-```int x = read<int>();``` This reads an int from the keyboard and stores it in x. If the user types something not an int, it discard it and keeps reading until an int is read. Using cin, you'd need two lines to do this: ```int x; cin >> x;``` which is annoying and awkward.
+```int x = read();``` This reads an int from the keyboard and stores it in x. If the user types something not an int, it discard it and keeps reading until an int is read. Using cin, you'd need two lines to do this: ```int x; cin >> x;``` which is annoying and awkward.
 
-```int age = read<int>("Please enter your age:\n");``` This will prompt the user to enter their age. If they don't type in a valid int, it will prompt them to do so again until the user successfully gives them an int.
+```int age = read("Please enter your age:\n");``` This will prompt the user to enter their age. If they don't type in a valid int, it will prompt them to do so again until the user successfully gives them an int.
 
-```const double SIZE = read<double>();``` Because the input is something that can appear on the right hand side of an assignment operation, this opens up a lot of things that can't be done with cin, such as creating a variable and initializing it at the same time, as well as using input to initialize constants and combining with auto.
+```const double SIZE = read();``` Because the input is something that can appear on the right hand side of an assignment operation, this opens up a lot of things that can't be done with cin, such as creating a variable and initializing it at the same time, as well as using input to initialize constants and combining with auto.
 
-```auto x = read<char>();``` Reads a char from cin and returns it into x, whose type is deduced to be char by auto.
+```auto x = read<char>();``` Reads a char from cin and returns it into x (which becomes a char). All of the read functions are templated by the type of data to read, but it can be omitted if the left hand size has a type that we can use to deduce what sort of read should happen.
 
 ```const string NAME = readline("Please enter your name: ");``` Read is the equivalent to "cin >>". Readline is the equivalent of getline(cin,s), except it combines cleanly with read, whereas it is buggy to use cin >> and getline without being very careful with trailing newlines. This line here will prompt the user for their name and read until a newline, and then return the result in a string.
 
