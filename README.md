@@ -37,6 +37,18 @@ And then in main:
 
 ```Tester t = read<Tester>("Please enter an int and a float: \n");```
 
+If you want more of a traditional I/O experience, you can choose to be notified when a read error occurs (such as you wanting to read an int, but the user types "squirrel") via the read_opt() function, which returns an optional:
+
+```
+auto temp = read_opt<unsigned int>("Please enter your age:\n");
+if (!temp or temp > 130) {
+	std::cout << "You failed to enter a valid age.\n";
+	exit(EXIT_FAILURE);
+}
+unsigned int age = *temp;
+std::cout << "You should have " << age * 10'000 << " dollars saved up right now.\n";
+```
+
 Testing the performance on a million ints, it appears to be equivalent to the old way, though this was not written with performance in mind. It was written to make input easier for new C++ programmers, who frequently get tripped up on input, especially when vetting their input for errors and when switching between >> and getline.
 
 Installation instructions:
