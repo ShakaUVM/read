@@ -1,6 +1,7 @@
 //read.h - a tiny header-only library to allow input in C++ to be more sensible
 //by ShakaUVM
-#pragma once
+#ifndef __READ_SHAKAUVM_H
+#define __READ_SHAKAUVM_H
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -150,4 +151,5 @@ auto read(const std::string prompt = "") {
 auto read(std::istream &ins) {
 	return Reader{ins,""};
 }
+#endif
 #endif
