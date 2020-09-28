@@ -14,11 +14,11 @@
 template<class T>
 T read(const std::string prompt = "") {
 	while (true) {
+		if (std::cin.eof()) //We reached the end of file, or the user hit ctrl-d
+			return {}; //Alternatively, we could throw an exception
 		T retval{};
 		std::cout << prompt;
 		std::cin >> retval;
-		if (std::cin.eof()) //We reached the end of file, or the user hit ctrl-d
-			return {}; //Alternatively, we could throw an exception
 		if (!std::cin) {
 			std::cin.clear(); //Clear error code
 			std::string s;
@@ -35,10 +35,10 @@ T read(const std::string prompt = "") {
 template<class T>
 T read(std::istream &ins) {
 	while (true) {
-		T retval{};
-		ins >> retval;
 		if (ins.eof()) //We reached the end of file, or the user hit ctrl-d
 			return {};
+		T retval{};
+		ins >> retval;
 		if (!ins) {
 			ins.clear(); //Clear error code
 			std::string s;
@@ -89,11 +89,11 @@ std::string readline(std::istream &ins, char delimiter = '\n') {
 // cout << *a << endl;
 template<class T>
 std::optional<T> read_opt(const std::string prompt = "") {
+	if (std::cin.eof()) //We reached the end of file, or the user hit ctrl-d
+		return std::nullopt;  //Return that nothing was read
 	T retval{};
 	std::cout << prompt;
 	std::cin >> retval;
-	if (std::cin.eof()) //We reached the end of file, or the user hit ctrl-d
-		return std::nullopt;  //Return that nothing was read
 	if (!std::cin) {
 		std::cin.clear(); //Clear error code, so the user can try again when they like
 		return std::nullopt;  //Return that nothing was read
@@ -105,10 +105,10 @@ std::optional<T> read_opt(const std::string prompt = "") {
 //Like the other read_opt, returns nullopt if it didn't read what was expected
 template<class T>
 std::optional<T> read_opt(std::istream &ins) {
-	T retval{};
-	ins >> retval;
 	if (ins.eof()) //We reached the end of file, or the user hit ctrl-d
 		return std::nullopt;  //Return that nothing was read
+	T retval{};
+	ins >> retval;
 	if (!ins) {
 		ins.clear(); //Clear error code, so the user can try again when they like
 		return std::nullopt;  //Return that nothing was read
@@ -129,11 +129,11 @@ struct Reader {
 	template<class T>
 		operator T() {
 			while(true) {
+				if(ins.eof()) //We reached the end of file, or the user hit ctrl-d
+					return {}; //Alternatively, we could throw an exception
 				T retval{};
 				std::cout << prompt;
 				ins >> retval; //If this fails, it's because you need a operator>> defined for your type
-				if(ins.eof()) //We reached the end of file, or the user hit ctrl-d
-					return {}; //Alternatively, we could throw an exception
 				if(!ins) {
 					ins.clear(); //Clear error code
 					std::string s;
