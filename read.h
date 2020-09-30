@@ -15,8 +15,8 @@ template<class T>
 T read(const std::string prompt = "") {
 	while (true) {
 		if (std::cin.eof()) //We reached the end of file, or the user hit ctrl-d
-			return {}; //Alternatively, we could throw an exception
-		T retval{};
+			return T(); //Alternatively, we could throw an exception
+		T retval;
 		std::cout << prompt;
 		std::cin >> retval;
 		if (!std::cin) {
@@ -36,8 +36,8 @@ template<class T>
 T read(std::istream &ins) {
 	while (true) {
 		if (ins.eof()) //We reached the end of file, or the user hit ctrl-d
-			return {};
-		T retval{};
+			return T();
+		T retval;
 		ins >> retval;
 		if (!ins) {
 			ins.clear(); //Clear error code
@@ -119,19 +119,20 @@ std::optional<T> read_opt(std::istream &ins) {
 #endif
 
 //This requires C++14 and above
-#if __cplusplus >= 201402L
+//#if __cplusplus >= 201402L
 //Simplest read possible: int x = read();
 //Credit: /u/9cantthinkofgoodname
 //https://old.reddit.com/r/cpp/comments/gtzsnm/we_need_to_do_better_than_cin_for_new_programmers/fsx6z7x/
 //However, int x = read(ins) is about 20% slower than using read<int>(ins), though
 //There's probably some template tricks we can use to eliminate the while loop when reading from a file
 struct Reader {
+	Reader(std::istream& ins_, const std::string& prompt_) : ins(ins_), prompt(prompt_) {}
 	template<class T>
 		operator T() {
 			while(true) {
 				if(ins.eof()) //We reached the end of file, or the user hit ctrl-d
-					return {}; //Alternatively, we could throw an exception
-				T retval{};
+					return T(); //Alternatively, we could throw an exception
+				T retval;
 				std::cout << prompt;
 				ins >> retval; //If this fails, it's because you need a operator>> defined for your type
 				if(!ins) {
@@ -147,11 +148,11 @@ struct Reader {
 	const std::string prompt;
 };
 
-auto read(const std::string prompt = "") {
-	return Reader{std::cin,prompt};
+Reader read(const std::string prompt = "") {
+	return Reader(std::cin,prompt);
 }
-auto read(std::istream &ins) {
-	return Reader{ins,""};
+Reader read(std::istream &ins) {
+	return Reader(ins,"");
 }
-#endif
+//#endif
 #endif
