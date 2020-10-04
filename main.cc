@@ -2,39 +2,47 @@
 //There is an explanation of what each line does and the benefits of it
 //by ShakaUVM
 #include "read.h"
-#include <chrono>
 #include <vector>
 #include <cstdlib>
 #include <cmath>
 #include <iomanip>
 using namespace std;
+
+//Use high resolution clock if C++11 or better, otherwise use clock()
+#if __cplusplus >= 201103L
+#include <chrono>
 using namespace chrono;
 using hrc = high_resolution_clock;
+#else
+#include <ctime>
+#endif
 
 //The library works on user defined types with operator>> as well as all primitive types
 struct Tester{ int x; float f; };
-istream &operator>>(istream &ins, Tester &t) { t.x = read<int>(ins); t.f = read<float>(ins); return ins; }
+istream &operator>>(istream &ins, Tester &t) { t.x = read(ins); t.f = read(ins); return ins; }
 
 int main() {
 
 	//Example 1 - reading using a function instead of cin >>
 	//Will clear errors and reprompt if the user doesn't type in an int
 	//If you have C++14 or above, you can use a simpler version
-#if __cplusplus >= 201402L
-	//This version requires C++14 and above
 	int green_apples = read("Please enter how many green and red apples you want to buy: "); //Reads an int from the standard in
-#else
-	int green_apples = read<int>("Please enter how many green and red apples you want to buy: "); //Reads an int from the standard in
-#endif
-
 
 	//You can specify the type in angle brackets.
 	//The prompt is optional, in which case it works just like cin >> but can appear on the right hand side
+#if __cplusplus >= 201103L
 	auto red_apples = read<int>(); //Reads an int from the standard in
+#else
+	int red_apples = read<int>(); //Auto not available prior to C++11
+#endif
 
 	//By making input on the right hand side, you can use const and/or auto with input
 	//Const and auto are popular these days, so it makes sense for input to be assignable
+#if __cplusplus >= 201103L
 	const auto price = read<double>("Please enter the price per apple: "); //Reads a double, stores it in a const
+#else
+	const double price = read<double>("Please enter the price per apple: "); //C++98 equivalent code
+#endif
 	cout << "Your total bill is " << (red_apples + green_apples) * price << endl;
 
 
@@ -47,7 +55,7 @@ int main() {
 
 	//Example 3 - Works with files as well
 	//Note there is no prompt when reading from a file, since that doesn't make sense
-	ifstream ins(filename); //Shuf.txt Holds the numbers from 1 to 1M, shuffled
+	ifstream ins(filename.c_str()); //Shuf.txt Holds the numbers from 1 to 1M, shuffled
 	if (!ins) {
 		cout << "Error: Couldn't open " << filename << endl;
 		exit(EXIT_FAILURE);
@@ -58,28 +66,41 @@ int main() {
 	//Example 4 - time how long it takes to read 1M numbers from a file
 	vector<int> vec; 
 	vec.reserve(1000000);
+
+	//Start the timer, using either modern or old C++
+#if __cplusplus >= 201103L
 	hrc::time_point start = hrc::now(); //Start timer
+#else
+	clock_t start = clock(); //Start timer the old way
+#endif
+
 	while (true) {
 #ifdef ORIG
 		//Compile with -DORIG to time the old way
 		int x = 0;
 		ins >> x;
 		if (!ins) break;
-		vec.emplace_back(x);
+		vec.push_back(x);
 #else
 		//The new way is more compact and sensible
 		int x = read<int>(ins);
 		if (!ins) break;
-		vec.emplace_back(x);
+		vec.push_back(x);
 #endif
 	}
+	//End the timer using either modern or old C++
+#if __cplusplus >= 201103L
     hrc::time_point end = hrc::now(); //End timer
     cerr << "Time to read 1M ints: " << fixed << setprecision(3) << duration_cast<duration<double>>(end - start).count() << "s\n";
+#else
+	clock_t end = clock();
+    cerr << "Time to read 1M ints: " << fixed << setprecision(3) << double(end - start)/CLOCKS_PER_SEC << "s\n";
+#endif
 
 
 	//Example 5 - The library works with any type for which there is a default constructor and operator>> defined
 	//So anything that you could cin >> before you can read() now
-	Tester t = read<Tester>("Please enter an int and a float:\n");
+	Tester t = read("Please enter an int and a float:\n");
 	//With C++14+ you could do the simpler version:
 	//Tester t = read("Please enter an int and a float:\n");
 	cout << "t.x = " << t.x << " t.f = " << t.f << endl;
@@ -121,6 +142,7 @@ int main() {
 		if (!num) {
 			invalid_count++;
 			string s = read<string>(ins); 
+			if (ins.eof()) break;
 			cout << s << endl;
 		}
 		else {
