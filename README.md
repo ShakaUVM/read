@@ -1,7 +1,7 @@
 # read
 A small header-online library to make input in C++ sensible
 
-Using cin >> to read in input from the keyboard is problematic for a few different reasons:
+Using cin >> to read in input is problematic for many reasons:
 1) New programmers chain together multiple cin statements, leading to the inability to tell where an error occurred in the input
 2) Cannot be combined with const
 3) Cannot be combined with auto
