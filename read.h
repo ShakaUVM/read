@@ -17,13 +17,10 @@ T read(const std::string prompt = "") {
 		if (std::cin.eof()) //We reached the end of file, or the user hit ctrl-d
 			return T(); //Alternatively, we could throw an exception
 		T retval;
-		std::istream::pos_type pos = std::cin.tellg();
 		std::cout << prompt;
 		std::cin >> retval;
 		if (!std::cin) {
 			std::cin.clear(); //Clear error code
-			if(std::cin.tellg() > pos) // check whether the stream has advanced
-				continue;
 			std::string s;
 			std::cin >> s; //Remove the word that caused the error
 			continue;
@@ -41,12 +38,9 @@ T read(std::istream &ins) {
 		if (ins.eof()) //We reached the end of file, or the user hit ctrl-d
 			return T();
 		T retval;
-		std::istream::pos_type pos = ins.tellg();
 		ins >> retval;
 		if (!ins) {
 			ins.clear(); //Clear error code
-			if(ins.tellg() > pos) // check whether the stream has advanced
-				continue;
 			std::string s;
 			ins >> s; //Remove the word that caused the error
 			continue;
@@ -134,13 +128,10 @@ struct Reader {
 				if(ins.eof()) //We reached the end of file, or the user hit ctrl-d
 					return T(); //Alternatively, we could throw an exception
 				T retval;
-				std::istream::pos_type pos = ins.tellg(); //save the current position
 				std::cout << prompt;
 				ins >> retval; //If this fails, it's because you need a operator>> defined for your type
 				if(!ins) {
 					ins.clear(); //Clear error code
-					if(ins.tellg() > pos) // check whether the stream has advanced
-						continue;
 					std::string s;
 					ins >> s; //Remove the word that caused the error
 					continue;
