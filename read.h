@@ -50,7 +50,7 @@ T read(std::istream &ins) {
 }
 
 //Reads a whole line of text, analogue to getline
-std::string readline(const std::string prompt = "", char delimiter = '\n') {
+inline std::string readline(const std::string prompt = "", char delimiter = '\n') {
 	//Eliminate a common bug when switching from >> to getline, the >> will leave a newline in the input buffer
 	std::string retval;
 	std::cout << prompt;
@@ -58,20 +58,20 @@ std::string readline(const std::string prompt = "", char delimiter = '\n') {
 	std::getline(std::cin,retval,delimiter);
 	if (std::cin.eof()) //We reached the end of file, or the user hit ctrl-d
 		return retval;
-	if (!std::cin)
-		throw std::runtime_error("Error within the readline function.");
+	//if (!std::cin)
+		//throw std::runtime_error("Error within the readline function.");
 	return retval;
 }
 
 //Getline equivalent for reading from a file
-std::string readline(std::istream &ins, char delimiter = '\n') {
+inline std::string readline(std::istream &ins, char delimiter = '\n') {
 	std::string retval;
 	ins >> std::ws;
 	std::getline(ins,retval,delimiter);
 	if (ins.eof()) //We reached the end of file, or the user hit ctrl-d
 		return retval;
-	if (!ins)
-		throw std::runtime_error("Error within the readline function.");
+	//if (!ins)
+		//throw std::runtime_error("Error within the readline function.");
 	return retval;
 }
 
