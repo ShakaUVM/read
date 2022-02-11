@@ -12,7 +12,7 @@
 //const int x = read<int>("Please enter an int");
 //string s = read<string>("What is your name?");
 template<class T>
-T read(const std::string prompt = "") {
+inline T read(const std::string prompt = "") {
 	while (true) {
 		if (std::cin.eof()) //We reached the end of file, or the user hit ctrl-d
 			return T(); //Alternatively, we could throw an exception
@@ -33,7 +33,7 @@ T read(const std::string prompt = "") {
 //Example:
 //auto d = read<double>(file);
 template<class T>
-T read(std::istream &ins) {
+inline T read(std::istream &ins) {
 	while (true) {
 		if (ins.eof()) //We reached the end of file, or the user hit ctrl-d
 			return T();
@@ -86,7 +86,7 @@ inline std::string readline(std::istream &ins, char delimiter = '\n') {
 // if (!a) exit(EXIT_FAILURE);
 // cout << *a << endl;
 template<class T>
-std::optional<T> read_opt(const std::string prompt = "") {
+inline std::optional<T> read_opt(const std::string prompt = "") {
 	if (std::cin.eof()) //We reached the end of file, or the user hit ctrl-d
 		return std::nullopt;  //Return that nothing was read
 	T retval{};
@@ -102,7 +102,7 @@ std::optional<T> read_opt(const std::string prompt = "") {
 //This version reads from a file, so no prompt
 //Like the other read_opt, returns nullopt if it didn't read what was expected
 template<class T>
-std::optional<T> read_opt(std::istream &ins) {
+inline std::optional<T> read_opt(std::istream &ins) {
 	if (ins.eof()) //We reached the end of file, or the user hit ctrl-d
 		return std::nullopt;  //Return that nothing was read
 	T retval{};
@@ -143,10 +143,10 @@ struct Reader {
 	const std::string prompt;
 };
 
-Reader read(const std::string prompt = "") {
+inline Reader read(const std::string prompt = "") {
 	return Reader(std::cin,prompt);
 }
-Reader read(std::istream &ins) {
+inline Reader read(std::istream &ins) {
 	return Reader(ins,"");
 }
 #endif
