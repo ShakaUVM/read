@@ -26,14 +26,14 @@ int main() {
 	//Example 1 - reading using a function instead of cin >>
 	//Will clear errors and reprompt if the user doesn't type in an int
 	//If you have C++14 or above, you can use a simpler version
-	int green_apples = read("Please enter how many green and red apples you want to buy: "); //Reads an int from the standard in
+	int green_apples = read("Please enter how many green apples you want to buy: "); //Reads an int from the standard in
 
 	//You can specify the type in angle brackets.
 	//The prompt is optional, in which case it works just like cin >> but can appear on the right hand side
 #if __cplusplus >= 201103L
-	auto red_apples = read<int>(); //Reads an int from the standard in
+	auto red_apples = read<int>("Please enter how many red apples you want to buy: "); //Reads an int from the standard in
 #else
-	int red_apples = read<int>(); //Auto not available prior to C++11
+	int red_apples = read<int>("Please enter how many red apples you want to buy: "); //Auto not available prior to C++11
 #endif
 
 	//By making input on the right hand side, you can use const and/or auto with input
@@ -82,8 +82,8 @@ int main() {
 		if (!ins) break;
 		vec.push_back(x);
 #else
-		//The new way is more compact and sensible
-		int x = read<int>(ins);
+		//The new way is more compact
+		int x = read(ins);
 		if (!ins) break;
 		vec.push_back(x);
 #endif
