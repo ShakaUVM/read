@@ -5,6 +5,32 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <stdexcept>
+
+// Just checking cpp version, but can be deleted if not needed.
+// Just because you can't compile with g++ main.cpp without adding the following:
+// g++ main.cpp -std=c++11 and higher.
+#if __cplusplus >= 201103L
+#define CPP_VERSION 1
+#elif __cplusplus >= 201703L
+#define CPP_VERSION 1
+#elif __cplusplus >= 202002L
+#define CPP_VERSION 1
+#endif
+
+// Allows for beginners to use fmtlib to stray away from using std::cout
+// Examples:
+// fmt::print("Answer: {}\n", 42);
+// or
+// print("Answer: {}\n", 42);
+// std::string fmt = format("I am {} years old\n", 1000);
+#if CPP_VERSION
+#define FMT_HEADER_ONLY
+#include "fmt/format.h"
+using namespace fmt;
+#else
+	static_assert((!CPP_VERSION), "Requires to the C++ version flag C++11+, to compile with fmt");
+#endif
 
 //Read a T from cin, reprompting if they type in something wrong
 //Examples:
