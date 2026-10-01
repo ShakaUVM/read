@@ -1,10 +1,10 @@
 //read.h - a tiny header-only library to allow input in C++ to be more sensible
 //by ShakaUVM
-#ifndef __READ_SHAKAUVM_H
-#define __READ_SHAKAUVM_H
-#include <iostream>
-#include <fstream>
-#include <string>
+#ifndef READ_SHAKAUVM_H
+#define READ_SHAKAUVM_H
+#include <iostream> // IWYU pragma: export
+#include <fstream>  // IWYU pragma: export
+#include <string>   // IWYU pragma: export
 
 //Read a T from cin, reprompting if they type in something wrong
 //Examples:
@@ -120,8 +120,8 @@ inline std::optional<T> read_opt(std::istream &ins) {
 //Credit: /u/9cantthinkofgoodname, modified to support C++98 by Mikadore
 //However, int x = read(ins) is about 20% slower than using read<int>(ins), though
 //There's probably some template tricks we can use to eliminate the while loop when reading from a file
-struct Reader {
-	Reader(std::istream& ins_, const std::string& prompt_) : ins(ins_), prompt(prompt_) {}
+struct ReadLibReader {
+	ReadLibReader(std::istream& ins_, const std::string& prompt_) : ins(ins_), prompt(prompt_) {}
 	template<class T>
 		operator T() {
 			while(true) {
@@ -143,10 +143,10 @@ struct Reader {
 	const std::string prompt;
 };
 
-inline Reader read(const std::string prompt = "") {
-	return Reader(std::cin,prompt);
+inline ReadLibReader read(const std::string prompt = "") {
+	return ReadLibReader(std::cin,prompt);
 }
-inline Reader read(std::istream &ins) {
-	return Reader(ins,"");
+inline ReadLibReader read(std::istream &ins) {
+	return ReadLibReader(ins,"");
 }
 #endif
